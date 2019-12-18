@@ -7,22 +7,22 @@ import {Field, reduxForm} from 'redux-form';
 
 import InputText from '../../Components/InputText';
 import Loader from "../../Components/Loader";
-import { loginUser } from "../../Redux/Actions/auth.actions";
+import { createNewUser } from "../../Redux/Actions/auth.actions";
 
 class Signup extends Component<{}> {
 
-  loginUser = async (values) => {
+createNewUser = async (values) => {
+  console.log("submit");
+  console.log(values)
+
     try {
-        const response =  await this.props.dispatch(loginUser(values));
-        // console.log(response);
+        const response =  await this.props.dispatch(createNewUser(values));
+        console.warn(response);
         if (!response) {
             throw response;
         }
     } catch (error) {
-        let errorText;
-        if (error.message) {
-            errorText = error.message
-        }
+        const newError = new ErrorUtils(error, "Signup Error");
         errorText = 'Something went wrong!';
         Alert.alert(
           'Login Error!',
@@ -39,7 +39,7 @@ class Signup extends Component<{}> {
 }
 
 onSubmit = (values) => {
-    this.loginUser(values);
+    this.createNewUser(values);
 }
 
   renderTextInput = field => {
@@ -119,7 +119,7 @@ onSubmit = (values) => {
 }
 
 const initialValues = {
-  level: '1'
+  role: '0'
 }
 
 const validate = (values) => {

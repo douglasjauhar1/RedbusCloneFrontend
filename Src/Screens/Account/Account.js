@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import {
+  Alert,
   FlatList,
   Dimensions,
   ActivityIndicator,
@@ -13,6 +14,7 @@ import {
   ScrollView,
   SafeAreaView,
 } from 'react-native';
+import {connect} from "react-redux";
 import { List, ListItem } from 'react-native-elements'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -20,6 +22,7 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Loader from '../../Components/Loader';
 import { Row } from 'native-base';
+import { logoutUser } from "../../Redux/Actions/auth.actions";
 
 const { width } = Dimensions.get('window')
 
@@ -92,13 +95,29 @@ class Account extends Component {
     this.setState({isLoading: false});
   }
 
+  logout = () => {
+    this.props.dispatch(logoutUser());
+  }
+
   
-  pressFrom() {
-    null
+  pressProfile() {
+    this.props.navigation.navigate('Profile')
   }
 
   pressLogout() {
-    null
+    Alert.alert(
+      'Confirm Logout',
+      'Are you sure to logout?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Logout Pressed'),
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: () => this.logout()},
+      ],
+      {cancelable: false},
+    );
   }
 
 
@@ -111,7 +130,7 @@ class Account extends Component {
       <View style={{flex:1, backgroundColor: '#e1e5e4'}}>
         <ScrollView>
           <View style={{height:115, backgroundColor: '#ffffff', marginHorizontal:10, marginTop:10, marginBottom:10 }}>
-            <TouchableOpacity style={{flex:1, padding:10}} onPress={() => this.pressFrom} >
+            <TouchableOpacity style={{flex:1, padding:10}} onPress={() => {this.pressProfile()}} >
               <View style={{flex:1,}}>
                 <View style={{flex:1, flexDirection:'row', marginTop:5}}>
                   <View style={{flex:1, alignItems:'center'}}>
@@ -136,7 +155,7 @@ class Account extends Component {
               listmenu.map((item, index)   => (
                 <TouchableOpacity onPress={()=>{this.props.navigation.navigate(''+item.nav)}}>
                   <ListItem
-                    key={index}
+                    key={item.id}
                     title={item.title}
                     bottomDivider
                     chevron
@@ -147,7 +166,7 @@ class Account extends Component {
           </View>
 
           <View style={{height:50, backgroundColor: '#ffffff', marginHorizontal:10, marginTop:20, marginBottom:10 }}>
-            <TouchableOpacity style={{flex:1, padding:10,justifyContent:'center'}} onPress={() => this.pressLogout} >
+            <TouchableOpacity style={{flex:1, padding:10,justifyContent:'center'}} onPress={() => this.pressLogout()} >
               <Text style={{marginLeft:5, fontSize:15, }}>Logout</Text>
             </TouchableOpacity>          
           </View>
@@ -157,7 +176,15 @@ class Account extends Component {
   }
 }
 
-export default Account;
+mapStateToProps = (state) => ({
+  getUser: state.userReducer.getUser
+});
+
+mapDispatchToProps = (dispatch) => ({
+  dispatch
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Account);
 
 const styles = StyleSheet.create({
 

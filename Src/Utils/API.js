@@ -11,8 +11,10 @@ module.exports = {
     return instance
   },
 
-  axiosGet(url) {
+  axiosGet(url, token = null) {
+    instance.defaults.headers.get['Authorization'] = token
     return instance.get(url)
+
   },
 
   
