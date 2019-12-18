@@ -4,9 +4,11 @@ import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Home from '../Screens/Home';
+import AccountPage from './AccountPage';
+import HomePage from './HomePage';
 
 const BottomTabNavigator = createBottomTabNavigator({
-  Home: Home,
+  Home: HomePage,
   'My Bookings': {
     screen: Home,
   },
@@ -14,7 +16,7 @@ const BottomTabNavigator = createBottomTabNavigator({
     screen: Home,
   },
   'My Account': {
-    screen: Home,
+    screen: AccountPage,
   },
 }, {
   defaultNavigationOptions: ({ navigation }) => ({
