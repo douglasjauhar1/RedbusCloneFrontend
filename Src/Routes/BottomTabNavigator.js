@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Home from '../Screens/Home';
+import Help from '../Screens/Help/Help';
 
 const BottomTabNavigator = createBottomTabNavigator({
   Home: Home,
@@ -11,7 +12,7 @@ const BottomTabNavigator = createBottomTabNavigator({
     screen: Home,
   },
   Help: {
-    screen: Home,
+    screen: Help,
   },
   'My Account': {
     screen: Home,
