@@ -1,77 +1,112 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, ScrollView, Image } from 'react-native';
-import { Container, Header, Content, Card, CardItem, Text,  Right, Left, Thumbnail, Button } from 'native-base';
+import {StyleSheet, View, ScrollView, Image, TouchableOpacity} from 'react-native';
+import {
+  Container,
+  Header,
+  Content,
+  Card,
+  CardItem,
+  Text,
+  Right,
+  Left,
+  Thumbnail,
+  Button,
+} from 'native-base';
+import {Grid, Col} from 'react-native-easy-grid'
+import moment from 'moment';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Data from './Data';
 import Loader from '../../Components/Loader';
-
-
-
+import {axiosPost, axiosGet} from '../../Utils/API';
 
 export default class SelectBus extends Component {
-  render() {
-      const item = Data.map( (item, index) => {
-         return <View key={item.id} style={styles.item}>
-             <Content>
-                    <Card>
-                    <CardItem>
-                        <Left>
-                          <Thumbnail source={require('./agramas.png')} style={{width : 120, height : 30}}/>
-                        </Left>  
-                    </CardItem>
-                    <CardItem  style={{marginTop : -5 }}>
-                        <Left>
-                        <View style={{alignItems : 'flex-start' , marginLeft : 5, alignContent : 'flex-start', justifyContent : 'flex-start'}}>
-                        <Text style={{fontWeight : '700'}}>{item.go} PM-
-                        <Text style={{fontWeight : 'normal'}}>
-                             {item.back} AM</Text></Text>
-                      <Text style={{color : 'gray', fontSize : 12, marginTop : 4}}>
-                          {item.seat}
-                      </Text>
-                        <Text style={{fontWeight : 'bold'}}>
-                            {item.text}
-                        </Text>
-                        <Text style={{fontSize : 11}}>{item.terminal}</Text>
-                        </View>
-                        </Left>
-                    <Right>
-                        <View style={{alignItems : 'flex-end', marginLeft : 10}}>
-                        <Text style={{fontWeight : '700'}}>RP. {item.price}</Text>
-                        <Button iconLeft style={{width : 60, height : 20,  marginTop : 4, backgroundColor : '#E9AF37'}}>
-                        <Icon name="star"  size={11} color="#ffff" style={{left : 10}} />
-                              <Text style={{fontSize : 11, fontWeight : 'bold', textAlign : 'center'}}>{item.star}</Text>
-                       </Button>
-                        <Button iconLeft  style={{width : 60, height : 20, backgroundColor: '#ccc'}}>
-                              <Text style={{fontSize : 8, fontWeight : 'bold', color : 'grey'}}>{item.slot}</Text>
-                       </Button>
-                        </View>
-                    </Right>
-                    </CardItem>
-                    </Card>
-                    </Content>
-                </View>
-      })
-      return (
-          <View style={styles.contentContainer}>
-              <ScrollView >
-                  <View>
-                      {item}
-                  </View>
-              </ScrollView>
-          </View>
-      )
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      listBus: [],
+    };
   }
-};
+
+  componentDidMount() {
+    console.warn(this.props.navigation.state.params.origin);
+    this.getDataBus();
+  }
+
+  async getDataBus() {
+    const response = await axiosGet(
+      'bus?origin='+this.props.navigation.state.params.origin+'&destination='+this.props.navigation.state.params.destination+'&date='+this.props.navigation.state.params.date+' 00:00:00',
+      null,
+    );
+
+    if (response.data.status) {
+      console.log(response.data.result.bus);
+
+      await this.setState({
+        listBus: response.data.result.bus,
+      });
+    }
+  }
+
+  render() {
+    // const lsBus = this.setState.listBus
+    const item = this.state.listBus.map((item, index) => {
+      return (
+      <TouchableOpacity onPress={() => {this.props.navigation.navigate('SeatBus')}}>
+        <View key={item.id} style={styles.item}>
+          <Content>
+            <Card>
+              <CardItem>
+                <Left>
+                  <Thumbnail
+                    source={require('./agramas.png')}
+                    style={{width: 120, height: 30}}
+                  />
+                </Left>
+              </CardItem>
+              <CardItem>
+                <Grid>
+                  <Col style={{flex : 2.9}}>
+                    <Text style={{fontWeight : 'bold'}}>
+                    {moment(item.arrive).format('H:mm')} WIB -
+                     <Text>{' '}
+                        {moment(item.depart).format('H:mm')} WIB</Text>
+                    </Text>
+                    <Text style={{color: 'gray', fontSize: 16, marginTop: 4}}>
+                      {item.seat} Seat
+                    </Text>
+                    <Text style={{fontWeight: 'bold', fontSize : 20}}>{item.bus_name}</Text>
+                    <Text style={{fontSize: 16}}>{item.origin_terminal}</Text>
+                  </Col>
+                  <Col style={{flex : 1.0}}>
+                  <Text style={{fontWeight: '700'}}>RP. {item.price}</Text>
+                  </Col>
+                </Grid>
+              </CardItem>
+            </Card>
+          </Content>
+        </View>
+      </TouchableOpacity>
+      );
+    });
+    return (
+      <View style={styles.contentContainer}>
+        <ScrollView>
+          <View>{item}</View>
+        </ScrollView>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   headerText: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
   },
   contentContainer: {
-      backgroundColor: 'white',
-      borderBottomColor : 'red'
+    backgroundColor: 'white',
+    borderBottomColor: 'red',
   },
-
-})
+});

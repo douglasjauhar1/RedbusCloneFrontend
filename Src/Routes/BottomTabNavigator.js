@@ -6,11 +6,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Home from '../Screens/Home';
 import AccountPage from './AccountPage';
 import HomePage from './HomePage';
+// import MyBooking from '../Screens/MyBooking/Tabs';
+import MyBookingPage from './MyBookingPage';
 
 const BottomTabNavigator = createBottomTabNavigator({
   Home: HomePage,
   'My Bookings': {
-    screen: Home,
+    screen: MyBookingPage,
+    
   },
   Help: {
     screen: Home,

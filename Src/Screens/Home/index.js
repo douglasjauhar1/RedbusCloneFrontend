@@ -19,6 +19,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Loader from '../../Components/Loader';
 import moment from "moment";
 import {connect} from "react-redux";
+import {axiosPost, axiosGet} from '../../Utils/API';
 
 const { width } = Dimensions.get('window')
 
@@ -30,15 +31,31 @@ class Home extends Component {
       dataEng: [],
       search: '',
       isLoading: true,
+      cityNmFrom: 'Enter origin',
+      cityNmTo: 'Enter destination',
+      sDate: '',
+      cityIdFrom: null,
+      cityIdTo: null,
     };
   }
 
-  componentDidMount() {
-    this.setState({isLoading: false});
+   async componentDidMount() {
+    this.setState({isLoading: false});  
+  
     this.subs = [
       this.props.navigation.addListener('willFocus', () => {
-        this.setState({isLoading: false})
+        this.setState({
+          isLoading: false,
+          cityNmFrom: this.props.slcCityOrigin.cityNm || 'Enter origin',
+          cityNmTo: this.props.slcCityDestination.destNm || 'Enter destination',
+          cityIdFrom: this.props.slcCityOrigin.cityId,
+          cityIdTo: this.props.slcCityDestination.destId,
+          sDate: moment(this.props.slcDate.journeyDate).format("YYYY-MM-DD")
+        })
+
+        
       })
+      
     ]    
   }
 
@@ -47,7 +64,7 @@ class Home extends Component {
   }
 
   pressTo() {
-    null
+    this.props.navigation.navigate('Destination')
   }
 
   pressSwitch() {
@@ -59,8 +76,15 @@ class Home extends Component {
   }
 
   pressNext() {
-    this.props.navigation.navigate('SelectBus')
+    const {cityIdFrom, cityNmFrom, cityIdTo, cityNmTo, sDate} = this.state
+    const bodyParams = {origin: cityIdFrom, destination: cityIdTo, date: sDate}
+    this.props.navigation.navigate('SelectBus', {origin: cityNmFrom, destination: cityNmTo, date: sDate})
+
+    axiosPost('dateorder/',bodyParams,this.props.getToken)
+    
   }
+
+
 
   render() {
     if (this.state.isLoading) {
@@ -77,7 +101,7 @@ class Home extends Component {
               <Text style={{fontWeight:'bold'}}>From</Text>
               <View style={{flex:1, flexDirection:'row', marginTop:5}}>
                 <MaterialIcons name="location-city" size={35} />
-                <Text style={{fontSize:25, marginLeft:10,}}>Enter origin</Text>
+                <Text style={{fontSize:25, marginLeft:10,}}>{this.state.cityNmFrom}</Text>
               </View>
             </View>
           </TouchableHighlight>
@@ -94,7 +118,7 @@ class Home extends Component {
               <Text style={{fontWeight:'bold'}}>To</Text>
               <View style={{flex:1, flexDirection:'row', marginTop:5}}>
                 <MaterialIcons name="location-city" size={35} />
-                <Text style={{fontSize:25, marginLeft:10,}}>Enter destination</Text>
+                <Text style={{fontSize:25, marginLeft:10,}}>{this.state.cityNmTo}</Text>
               </View>
             </View>
           </TouchableHighlight>
@@ -144,7 +168,10 @@ class Home extends Component {
 }
 
 mapStateToProps = (state) => ({
-  slcDate: state.selectReducer.selectDate
+  getToken: state.authReducer.authData.token,
+  slcDate: state.selectReducer.selectDate,
+  slcCityOrigin: state.selectReducer.selectCity,
+  slcCityDestination: state.selectReducer.selectDest,
 })
 
 mapDispatchToProps = (dispatch) => ({

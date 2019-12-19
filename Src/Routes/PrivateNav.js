@@ -4,8 +4,10 @@ import { createStackNavigator } from 'react-navigation-stack'
 import BottomTabNavigator from './BottomTabNavigator';
 import Profile from '../Screens/Profile/Profile';
 import SelectBus from '../Screens/SelectBus/SelectBus';
+import SeatBus from '../Screens/SeatBus/SeatBus';
 import Calendar from '../Screens/Calendar/Calendar';
 import Origin from '../Screens/Origin/Origin';
+import Destination from '../Screens/Destination/Destination';
 
 
 const HomeNavigation = createStackNavigator({
@@ -38,6 +40,16 @@ const HomeNavigation = createStackNavigator({
       },
     }, 
   },
+  SeatBus: { 
+    screen: SeatBus,
+    navigationOptions: {
+      title:'Choose Seat Bus',
+      headerTintColor: '#ffffff',
+      headerStyle: {
+        backgroundColor: '#ef4339',
+      },
+    }, 
+  },
   Calendar: { 
     screen: Calendar,
     navigationOptions: {
@@ -50,6 +62,9 @@ const HomeNavigation = createStackNavigator({
   },
   Origin: { 
     screen: Origin,
+  },
+  Destination: { 
+    screen: Destination,
   },
 },{
   

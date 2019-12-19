@@ -14,7 +14,7 @@ import { axiosGet } from "../../Utils/API"
 import Loader from '../../Components/Loader'
 import {connect} from "react-redux";
 import { ListItem, SearchBar } from 'react-native-elements';
-import { selectCity } from "../../Redux/Actions/select.actions";
+import { selectDest } from "../../Redux/Actions/select.actions";
 
 function Item({ item }) {
   return (
@@ -27,7 +27,7 @@ function Item({ item }) {
   );
 }
 
-class Origin extends React.Component {
+class Destination extends React.Component {
   constructor(props) {
     super(props)
 
@@ -85,15 +85,12 @@ class Origin extends React.Component {
   };
 
   async pressCity(value) {
-    await console.warn(value);
-    
-    const response =  await this.props.dispatch(selectCity(value));
-    await this.props.navigation.goBack()
-    console.warn(response)
+    const response =  await this.props.dispatch(selectDest(value));
+    this.props.navigation.goBack();
     if (!response) {
       throw response;
     }
-    // console.warn('Klik: '+value)
+
   }
 
   renderHeader = () => {
@@ -162,7 +159,7 @@ mapDispatchToProps = (dispatch) => ({
   dispatch
 });
 
-export default connect(null, mapDispatchToProps)(Origin);
+export default connect(null, mapDispatchToProps)(Destination);
 
 const styles = StyleSheet.create({
   container: {
