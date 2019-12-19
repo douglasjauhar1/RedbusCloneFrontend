@@ -53,7 +53,7 @@ class Home extends Component {
   }
 
   pressNext() {
-    null
+    this.props.navigation.navigate('SelectBus')
   }
 
   render() {
@@ -66,7 +66,7 @@ class Home extends Component {
       <ScrollView>
         <View style={{height:175, backgroundColor: '#ffffff', marginHorizontal:10, marginTop:10, }}>
  
-          <TouchableHighlight style={{flex:1, padding:10}} underlayColor={'#ff828a'} activeOpacity={1} onPress={() => this.pressFrom} >
+          <TouchableHighlight style={{flex:1, padding:10}} underlayColor={'#ff828a'} activeOpacity={1} onPress={() => this.pressFrom()} >
             <View style={{flex:1,}}>
               <Text style={{fontWeight:'bold'}}>From</Text>
               <View style={{flex:1, flexDirection:'row', marginTop:5}}>
@@ -83,7 +83,7 @@ class Home extends Component {
               </TouchableOpacity>    
             <Text>   ───</Text>
           </View>
-          <TouchableHighlight style={{flex:1, padding:10}} underlayColor={'#ff828a'} activeOpacity={1} onPress={() => this.pressTo} >
+          <TouchableHighlight style={{flex:1, padding:10}} underlayColor={'#ff828a'} activeOpacity={1} onPress={() => this.pressTo()} >
             <View style={{flex:1,}}>
               <Text style={{fontWeight:'bold'}}>To</Text>
               <View style={{flex:1, flexDirection:'row', marginTop:5}}>
@@ -94,7 +94,7 @@ class Home extends Component {
           </TouchableHighlight>
         </View>
         <View style={{height:90, backgroundColor: '#ffffff', marginHorizontal:10, marginTop:15,}}>
-          <TouchableHighlight style={{flex:1, padding:10}} underlayColor={'#ff828a'} activeOpacity={1} onPress={() => this.pressDate} >
+          <TouchableHighlight style={{flex:1, padding:10}} underlayColor={'#ff828a'} activeOpacity={1} onPress={() => this.pressDate()} >
             <View style={{flex:1,}}>
               <Text style={{fontWeight:'bold'}}>Journey Date</Text>
               <View style={{flex:1, flexDirection:'row', marginTop:5, alignItems:'center'}}>
@@ -110,7 +110,7 @@ class Home extends Component {
           </TouchableHighlight>
         </View>
         <View style={{alignSelf: 'center', justifyContent:'center', marginTop:20}}>
-          <TouchableOpacity onPress={()=> this.pressNext}>
+          <TouchableOpacity onPress={()=> this.pressNext()}>
             <View style={{height:70, width:70, backgroundColor: '#ef4339', borderRadius:50, justifyContent:'center', alignItems:'center' }}> 
               <FontAwesome5 name='chevron-right' size={30} style={{color:'white'}} />
             </View>
@@ -121,6 +121,7 @@ class Home extends Component {
             <View style={{flex:1, flexDirection:'row'}}>
               <View style={{flex:1}}>
                 {/* IMAGE */}
+                <Image source={require('../../Assets/images/icon/dompet.png')} style={{width:80, height:80}} />
               </View>
               <View style={{flex:3}}>
                 <Text style={{fontWeight:'bold', fontSize:15, marginBottom:10}}>Dapatkan tiket bus gratis, sekarang!</Text>
