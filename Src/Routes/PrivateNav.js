@@ -4,6 +4,8 @@ import { createStackNavigator } from 'react-navigation-stack'
 import BottomTabNavigator from './BottomTabNavigator';
 import Profile from '../Screens/Profile/Profile';
 import SelectBus from '../Screens/SelectBus/SelectBus';
+import Calendar from '../Screens/Calendar/Calendar';
+import Origin from '../Screens/Origin/Origin';
 
 
 const HomeNavigation = createStackNavigator({
@@ -35,6 +37,19 @@ const HomeNavigation = createStackNavigator({
         backgroundColor: '#ef4339',
       },
     }, 
+  },
+  Calendar: { 
+    screen: Calendar,
+    navigationOptions: {
+      title:'Journey Date',
+      headerTintColor: '#ffffff',
+      headerStyle: {
+        backgroundColor: '#ef4339',
+      },
+    }, 
+  },
+  Origin: { 
+    screen: Origin,
   },
 },{
   

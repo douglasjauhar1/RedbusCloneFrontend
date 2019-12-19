@@ -17,7 +17,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Loader from '../../Components/Loader';
-import { Row } from 'native-base';
+import moment from "moment";
+import {connect} from "react-redux";
 
 const { width } = Dimensions.get('window')
 
@@ -34,10 +35,15 @@ class Home extends Component {
 
   componentDidMount() {
     this.setState({isLoading: false});
+    this.subs = [
+      this.props.navigation.addListener('willFocus', () => {
+        this.setState({isLoading: false})
+      })
+    ]    
   }
 
   pressFrom() {
-    null
+    this.props.navigation.navigate('Origin')
   }
 
   pressTo() {
@@ -49,7 +55,7 @@ class Home extends Component {
   }
 
   pressDate() {
-    null
+    this.props.navigation.navigate('Calendar')
   }
 
   pressNext() {
@@ -66,7 +72,7 @@ class Home extends Component {
       <ScrollView>
         <View style={{height:175, backgroundColor: '#ffffff', marginHorizontal:10, marginTop:10, }}>
  
-          <TouchableHighlight style={{flex:1, padding:10}} underlayColor={'#ff828a'} activeOpacity={1} onPress={() => this.pressFrom()} >
+          <TouchableHighlight style={{flex:1, padding:10}} underlayColor={'#ff828a'} activeOpacity={1} onPress={() => {this.props.navigation.navigate('Origin')}} >
             <View style={{flex:1,}}>
               <Text style={{fontWeight:'bold'}}>From</Text>
               <View style={{flex:1, flexDirection:'row', marginTop:5}}>
@@ -99,12 +105,12 @@ class Home extends Component {
               <Text style={{fontWeight:'bold'}}>Journey Date</Text>
               <View style={{flex:1, flexDirection:'row', marginTop:5, alignItems:'center'}}>
                 <EvilIcons name="calendar" size={45} />
-                <Text style={{fontSize:30, marginLeft:10,}}>27</Text>
+                <Text style={{fontSize:30, marginLeft:10,}}>{moment(this.props.slcDate.journeyDate).format("D")}</Text>
                 <View style={{flex:1, flexDirection:'column'}}>
-                  <Text style={{fontSize:12, marginLeft:10,}}>FRI</Text>
-                  <Text style={{fontSize:12, marginLeft:10,}}>DECEMBER</Text>
+                  <Text style={{fontSize:12, marginLeft:10,}}>{moment(this.props.slcDate.journeyDate).format("ddd")}</Text>
+                  <Text style={{fontSize:12, marginLeft:10,}}>{moment(this.props.slcDate.journeyDate).format("MMMM")}</Text>
                 </View>
-                <Text style={{fontSize:28}}>Tomorrow</Text>
+                <Text style={{fontSize:28}}>{moment(this.props.slcDate.journeyDate).format("YYYY")}</Text>
               </View>
             </View>
           </TouchableHighlight>
@@ -137,7 +143,15 @@ class Home extends Component {
   }
 }
 
-export default Home;
+mapStateToProps = (state) => ({
+  slcDate: state.selectReducer.selectDate
+})
+
+mapDispatchToProps = (dispatch) => ({
+  dispatch
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
 const styles = StyleSheet.create({
 
