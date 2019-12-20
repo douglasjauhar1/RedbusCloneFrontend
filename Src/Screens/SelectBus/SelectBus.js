@@ -60,6 +60,8 @@ class SelectBus extends Component {
 
   render() {
     // const lsBus = this.setState.listBus
+ 
+
     const item = this.state.listBus.map((item, index) => {
       return (
       <TouchableOpacity onPress={() => this.pressListBus(item.id)}>
@@ -86,7 +88,7 @@ class SelectBus extends Component {
                       {item.seat} Seat
                     </Text>
                     <Text style={{fontWeight: 'bold', fontSize : 20}}>{item.bus_name}</Text>
-                    <Text style={{fontSize: 16}}>{item.origin_terminal}</Text>
+                    <Text style={{fontSize: 16}}>{item.origin_terminal} to {item.destination_terminal}</Text>
                   </Col>
                   <Col style={{flex : 1.0}}>
                   <Text style={{fontWeight: '700'}}>RP. {item.price}</Text>
@@ -99,6 +101,7 @@ class SelectBus extends Component {
       </TouchableOpacity>
       );
     });
+
     return (
       <View style={styles.contentContainer}>
         <ScrollView>

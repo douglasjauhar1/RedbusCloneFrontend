@@ -31,32 +31,32 @@ const listmenu = [
   {
     id: 1,
     title: 'My Bookings',
-    nav: 'MyBookings'
+    nav: 'My Bookings'
   },
   {
     id: 2,
     title: 'Wallet',
-    nav: 'Wallet'
+    nav: 'Ops'
   },
   {
     id: 3,
     title: 'Cards',
-    nav: 'Cards'
+    nav: 'Ops'
   },
   {
     id: 4,
     title: 'Co-Passenggers(Bus)',
-    nav: 'Passengger'
+    nav: 'Ops'
   },
   {
     id: 5,
     title: 'Refer & Earn',
-    nav: 'Refer'
+    nav: 'Ops'
   },
   {
     id: 6,
     title: 'Offers',
-    nav: 'Offers'
+    nav: 'Ops'
   },
   {
     id: 7,
@@ -66,7 +66,7 @@ const listmenu = [
   {
     id: 8,
     title: 'Call Support',
-    nav: 'Support'
+    nav: 'Ops'
   },
   {
     id: 9,
@@ -76,7 +76,7 @@ const listmenu = [
   {
     id: 10,
     title: 'Settings',
-    nav: 'Settings'
+    nav: 'Ops'
   },
 ];
 

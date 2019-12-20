@@ -3,11 +3,11 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Home from '../Screens/Home';
 import AccountPage from './AccountPage';
 import HomePage from './HomePage';
 // import MyBooking from '../Screens/MyBooking/Tabs';
 import MyBookingPage from './MyBookingPage';
+import HelpPage from './HelpPage';
 
 const BottomTabNavigator = createBottomTabNavigator({
   Home: HomePage,
@@ -16,7 +16,7 @@ const BottomTabNavigator = createBottomTabNavigator({
     
   },
   Help: {
-    screen: Home,
+    screen: HelpPage,
   },
   'My Account': {
     screen: AccountPage,
