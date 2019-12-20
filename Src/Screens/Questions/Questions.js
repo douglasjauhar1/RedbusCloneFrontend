@@ -46,7 +46,7 @@ class Questions extends Component {
   }
 
   getData() {
-    axios.get('http:192.168.0.108:4000/myhire/answer/' + this.props.navigation.state.params.idcategory)
+    axios.get('http:192.168.0.101:4000/myhire/answer/' + this.props.navigation.state.params.idcategory)
     .then(res => {
       this.setState({ data: res.data , isLoading: false});
       

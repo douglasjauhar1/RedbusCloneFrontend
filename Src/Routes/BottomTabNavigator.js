@@ -5,17 +5,20 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Home from '../Screens/Home';
 import Help from '../Screens/Help/Help';
+import Ops from '../Screens/404/ops';
+import About from '../Screens/About/About';
+import Bus from '../Screens/404/Bus';
 
 const BottomTabNavigator = createBottomTabNavigator({
   Home: Home,
   'My Bookings': {
-    screen: Home,
+    screen: Bus,
   },
   Help: {
     screen: Help,
   },
   'My Account': {
-    screen: Home,
+    screen: About,
   },
 }, {
   defaultNavigationOptions: ({ navigation }) => ({

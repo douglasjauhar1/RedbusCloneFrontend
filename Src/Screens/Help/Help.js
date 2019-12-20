@@ -14,7 +14,8 @@ import {
     List,
     TextInput,
     Picker,
-    Button
+    Button,
+    ScrollView
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Loader from '../../Components/Loader';
@@ -22,6 +23,7 @@ import { Row } from 'native-base';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { ListItem } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Cards from '../Help/Cards'
 
 const { width } = Dimensions.get('window')
 
@@ -48,7 +50,7 @@ class Help extends Component {
     }
 
     getData() {
-        axios.get(`http:192.168.0.108:4000/myhire/help`)
+        axios.get(`http:192.168.1.4:4000/myhire/help`)
         .then(res => {
           this.setState({ data: res.data , isLoading: false});
         });
@@ -71,12 +73,12 @@ class Help extends Component {
 
         return (
             <View style={{ flex: 1, backgroundColor: '#e1e5e4', fontFamily: 'Montserrat' }}>
-                
+                <ScrollView>
                 <View style={{ height: 170, backgroundColor: '#ffffff', marginHorizontal: 10, marginTop: 10, marginBottom: 5, padding: 10 }}>
                     <Text style={{ alignSelf: 'center', marginTop: 10 }}>For which booking do u need help?</Text>
                     <View style={styles.fixToText}>
                         <Picker
-
+                            
                             selectedValue={this.state.language}
                             style={{ height: 70, width: 100 }}
                             onValueChange={(itemValue, itemIndex) =>
@@ -88,6 +90,7 @@ class Help extends Component {
                             <Picker.Item label="+51" value="js" />
                             <Picker.Item label="+57" value="java" />
                             <Picker.Item label="+93" value="js" />
+                            
                         </Picker>
                         <TextInput
                             style={styles.input}
@@ -116,21 +119,18 @@ class Help extends Component {
                         data={this.state.data}
                         renderItem={({ item }) => (
                             <ListItem
+                                style={styles.name}
                                 title={item.name_category}
                                 onPress={() => { this.props.navigation.navigate('Questions' ,{
                                     idcategory: item.id_category}) }}
                                 chevron
-                            />
-                            
-                         
-                            
+                            /> 
                         )}
-                        
                         keyExtractor={item => item.name_category}
                         ItemSeparatorComponent={this.renderSeparator}
                     />
-
                 </View>
+                </ScrollView>
             </View>
         );
     }
@@ -142,6 +142,9 @@ const styles = StyleSheet.create({
     fixToText: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+    },
+    name:{
+        fontSize:9
     },
     input: {
         height: 45,
@@ -170,5 +173,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'black'
     },
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
     
 })

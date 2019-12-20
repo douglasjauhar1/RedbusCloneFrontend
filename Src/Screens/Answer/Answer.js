@@ -51,7 +51,7 @@ class Answer extends Component {
   async getData() {
     try {
        
-        const profile = await axios.get('http:192.168.0.108:4000/myhire/detail/' + this.props.navigation.state.params.iddetail)
+        const profile = await axios.get('http:192.168.0.101:4000/myhire/detail/' + this.props.navigation.state.params.iddetail)
         console.log(profile);
 
         await this.setState({
