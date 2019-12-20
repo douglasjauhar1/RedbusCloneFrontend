@@ -34,6 +34,13 @@ class Tabed extends Component {
 
   componentDidMount() {
     this.getDataOrder();
+
+    this.subs = [
+      this.props.navigation.addListener('willFocus', () => {
+        // this.setState({isLoading: false})
+        this.getDataOrder();
+      })
+    ]    
   }
 
   async getDataOrder() {

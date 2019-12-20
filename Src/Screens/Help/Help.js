@@ -49,7 +49,7 @@ class Help extends Component {
     }
 
     getData() {
-        axios.get(`http://192.168.1.16:3000/v1/redbus/help`)
+        axios.get(`http://18.233.99.1:2500/v1/redbus/help`)
         .then(res => {
           this.setState({ data: res.data , isLoading: false});
         });
