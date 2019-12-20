@@ -10,6 +10,8 @@ import Origin from '../Screens/Origin/Origin';
 import Destination from '../Screens/Destination/Destination';
 import CustomerInfo from '../Screens/CustomerInfo/CustomerInfo';
 import Ticket from '../Screens/Ticket/Ticket';
+import PaymentOptions from '../Screens/PaymentOptions/PaymentOptions';
+import PaymentDetail from '../Screens/PaymentDetail/PaymentDetail';
 
 
 const HomeNavigation = createStackNavigator({
@@ -64,6 +66,16 @@ const HomeNavigation = createStackNavigator({
   },
   PaymentOption: { 
     screen: PaymentOptions,
+    navigationOptions: {
+      title:'Payment',
+      headerTintColor: '#ffffff',
+      headerStyle: {
+        backgroundColor: '#ef4339',
+      },
+    }, 
+  },
+  PaymentDetail: { 
+    screen: PaymentDetail,
     navigationOptions: {
       title:'Payment',
       headerTintColor: '#ffffff',

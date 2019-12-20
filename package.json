@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "accordion-collapse-react-native": "^0.1.11",
     "axios": "^0.19.0",
     "moment": "^2.24.0",
     "native-base": "^2.13.8",
@@ -24,6 +25,7 @@
     "react-native-progress": "^4.0.2",
     "react-native-reanimated": "^1.4.0",
     "react-native-screens": "^2.0.0-alpha.19",
+    "react-native-show-more-button": "^1.0.2",
     "react-native-splash-screen": "^3.0.6",
     "react-native-vector-icons": "^6.6.0",
     "react-native-web-swiper": "^2.1.0",

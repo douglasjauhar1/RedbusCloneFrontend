@@ -28,11 +28,11 @@ class CustomerInfo extends Component {
       if (response) {
         Alert.alert(
           'Submit Success!',
-          "Submit new project successful",
+          "Submit customer info successful",
           [
             {
               text: 'Ok',
-              onPress: () => this.props.navigation.goBack(),
+              onPress: () => this.props.navigation.navigate('PaymentOption'),
               style: 'default',
             },
           ]
@@ -41,7 +41,7 @@ class CustomerInfo extends Component {
       } else {
         Alert.alert(
           'Submit Failed!',
-          "Submit form project failed",
+          "Submit customer info failed",
           [
             {
               text: 'Cancel',
@@ -55,7 +55,7 @@ class CustomerInfo extends Component {
     } catch (error) {
       Alert.alert(
         'Submit Error!',
-        "Submit form error",
+        "Submit customer info error",
         [
           {
             text: 'Cancel',
@@ -91,6 +91,7 @@ class CustomerInfo extends Component {
               <Label>Mobile Phone</Label>
               <Input 
                 style={styles.input}
+                keyboardType='numeric'
                 value={userDetails.phone_number}
               />
             </Item>
@@ -131,13 +132,13 @@ class CustomerInfo extends Component {
           </Card>
           <View style={{alignItems : 'center', marginTop : 17}}>
             <Text>By Clicking on Continue Booking, I agree to all the</Text>
-            <Text style={{color : '#D74E55'}}>Terms & Conditions <Text style={{color : 'black'}}>and</Text> Privacy Policy</Text>
+            <Text style={{color : '#ef4339'}}>Terms & Conditions <Text style={{color : 'black'}}>and</Text> Privacy Policy</Text>
           </View>
 
         </Content> 
 
         <TouchableOpacity onPress={() => this.addCustInfo()}>
-          <Footer style={{backgroundColor : '#D74E55'}}>
+          <Footer style={{backgroundColor : '#ef4339'}}>
             <Text style={{marginTop : 15, color : 'white', fontSize : 15}}>
             Continue Booking
             </Text>
