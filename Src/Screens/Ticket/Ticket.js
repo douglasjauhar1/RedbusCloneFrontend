@@ -2,8 +2,24 @@ import React, { Component } from "react";
 import {Grid, Col} from 'react-native-easy-grid'
 import {View} from 'react-native'
 import { Container, Header, Content, Card, CardItem, Text, Body, Icon } from "native-base";
+import {formatRupiah} from '../../Utils/Rupiah'
+import moment from 'moment'
 
 export default class Ticket extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      dataTicket: [],
+    };
+  }
+
+  componentDidMount() {
+    this.setState({dataTicket: this.props.navigation.state.params.dataTicket})
+    console.log('ParamNavigate: ', this.props.navigation.state.params.dataTicket);
+    
+  }
+
   render() {
     return (
       <Container>
@@ -25,20 +41,20 @@ export default class Ticket extends Component {
             </Card>
           <Card>
               <CardItem bordered style={{backgroundColor : '#eee'}}>
-                  <Text style={{fontWeight : 'bold'}}> CONFIRMED , 8/9/2019</Text>
+                  <Text style={{fontWeight : 'bold'}}> CONFIRMED</Text>
               </CardItem>
             <CardItem header bordered style={{backgroundColor : '#eee'}}>
               <Grid>
                   <Col style={{flex : 2.5}}>
                   <Text style={{color : 'grey'}}>FROM</Text>
-                  <Text style={{color : 'black', fontWeight : 'bold'}}>Yogyakarta</Text>
+                  <Text style={{color : 'black', fontWeight : 'bold'}}>{this.state.dataTicket.origin_terminal}</Text>
                   </Col>
                   <Col style={{flex : 1.5}}>
                   <Icon type="AntDesign" name ="right" style={{marginTop : 15, fontSize: 18}}/>
                   </Col>
                   <Col style={{flex : 1.0}}>
                   <Text style={{color : 'grey', marginLeft : 30}}>TO</Text>
-                  <Text style={{color : 'black', fontWeight : 'bold'}}>Jakarta</Text>
+                  <Text style={{color : 'black', fontWeight : 'bold'}}>{this.state.dataTicket.destination_terminal}</Text>
                   </Col>
               </Grid>
             </CardItem>
@@ -58,7 +74,7 @@ export default class Ticket extends Component {
                 <Grid>
                     <Col>
                     <Text style={{color : 'grey', fontSize: 13}}>TRAVEL</Text>
-            <Text style={{color : 'grey'}}>Kramat Jati Jakarta</Text>
+            <Text style={{color : 'grey'}}>{this.state.dataTicket.bus_name}</Text>
                     </Col>
                 </Grid>
             </CardItem>
@@ -66,11 +82,11 @@ export default class Ticket extends Component {
               <Grid>
                   <Col style={{flex : 3.5}}>
                   <Text style={{color : 'grey', fontSize: 13}}>PASSENGERS</Text>
-                  <Text style={{color : 'grey'}}>Douglas Jauhar Nehru</Text>
+                  <Text style={{color : 'grey'}}>{this.state.dataTicket.name}</Text>
                   </Col>
                   <Col style={{flex : 1.0}}>
                   <Text style={{color : 'grey', fontSize: 13, marginLeft : 10}}>SEATS</Text>
-                  <Text style={{color : 'grey', marginLeft : 20}}>26</Text>
+                  <Text style={{color : 'grey', marginLeft : 20}}>{this.state.dataTicket.seat_number}</Text>
                   </Col>
               </Grid>
             </CardItem>
@@ -78,9 +94,9 @@ export default class Ticket extends Component {
                 <Grid>
                     <Col>
                     <Text style={{color : 'grey', fontSize: 13}}>BOARDING POINT DETAIL</Text>
-                    <Text style={{color : 'grey', marginBottom : 10}}>Terminal Giwangan Kota Yogyakarta</Text>
+                    <Text style={{color : 'grey', marginBottom : 10}}>Terminal {this.state.dataTicket.origin_terminal}</Text>
                     <Text style={{color : 'grey', fontSize: 13}}>DROPPING POINT DETAIL</Text>
-                    <Text style={{color : 'grey'}}>Terminal Pulo Gebang Kota Jakarta</Text>
+                    <Text style={{color : 'grey'}}>Terminal {this.state.dataTicket.destination_terminal}</Text>
                     </Col>
                 </Grid>
             </CardItem>
@@ -93,7 +109,7 @@ export default class Ticket extends Component {
                         TICKET NUMBER
                     </Text>
                     <Text  style={{color : 'grey'}}>
-                        12347658
+                        {moment(this.state.dataTicket.depart).format('DDMMYY')}{this.state.dataTicket.id}
                     </Text>
                     </Col>
                     <Col>
@@ -101,7 +117,7 @@ export default class Ticket extends Component {
                         TOTAL
                     </Text>
                     <Text  style={{color : 'black', fontWeight : 'bold'}}>
-                        120.000,00
+                        {formatRupiah(this.state.dataTicket.total, 'Rp ')}
                     </Text>
                     </Col>
                 </Grid>

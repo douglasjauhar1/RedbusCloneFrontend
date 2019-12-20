@@ -12,10 +12,12 @@ import {
   Right,
   Left,
 } from 'native-base';
+import moment from 'moment'
+
 export default class Cards extends Component {
   render() {
     return (
-      <Container>
+      <View style={{flex:1}}>
         <Content padder>
           <Card>
             <CardItem>
@@ -23,14 +25,14 @@ export default class Cards extends Component {
                 {/* <Image source={require('../image/bca.png')} style={{width : 75, height : 50}}/> */}
                 <Text
                   style={{
-                    alignSelf: 'flex-end',
+                    alignSelf: 'center',
                     fontSize: 16,
                     color: '#D17780',
                     fontWeight: '200',
                     marginBottom: 4,
-                    marginLeft: 150,
+                    marginLeft:'30%',
                   }}>
-                  EXPIRED
+                  YOUR TICKET
                 </Text>
               </View>
             </CardItem>
@@ -67,9 +69,9 @@ export default class Cards extends Component {
                       fontSize: 17,
                       color: 'black',
                       fontWeight: '700',
-                      marginLeft: 60,
+                      marginLeft: 80,
                     }}>
-                    Rp. 220.000
+                    Rp. {this.props.total}
                   </Text>
                 </Left>
               </View>
@@ -84,7 +86,7 @@ export default class Cards extends Component {
                     fontWeight: '400',
                     marginTop: 2,
                   }}>
-                  Jakarta - Yogya (Yogyakarta)
+                  {this.props.origin} - {this.props.destination}
                 </Text>
                 <Text
                   style={{
@@ -94,12 +96,12 @@ export default class Cards extends Component {
                     fontWeight: '300',
                     marginTop: 10,
                   }}>
-                  Wed, 13 August 2017 (03.00 PM)
+                  {moment(this.props.dateDepart).format('llll')}
                 </Text>
               </Right>
               <Left style={{flex: 1.0}}>
                 <Text style={{color: 'grey', fontSize: 12, marginLeft: 70}}>
-                  Sumber Alam
+                  {this.props.busName}
                 </Text>
               </Left>
             </CardItem>
@@ -107,17 +109,17 @@ export default class Cards extends Component {
               <TouchableOpacity>
                 <Text
                   style={{
-                    color: '#3659CB',
+                    color: 'red',
                     fontWeight: '700',
-                    marginLeft: 170,
+                    marginLeft: 5,
                   }}>
-                  RE-TRY BOOKING
+                  status: {this.props.stsPaid === 0 ? 'Payment is not complated' : '-'}
                 </Text>
               </TouchableOpacity>
             </CardItem>
           </Card>
         </Content>
-      </Container>
+      </View>
     );
   }
 }

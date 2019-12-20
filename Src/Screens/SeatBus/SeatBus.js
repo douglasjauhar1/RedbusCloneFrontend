@@ -10,7 +10,7 @@ import {
     StyleSheet,
     Alert
   } from 'react-native';
-  import {Icon} from 'native-base'
+  import {Icon, Footer, Content} from 'native-base'
   import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
   import {axiosPost, axiosGet} from '../../Utils/API';
   import {connect} from "react-redux";
@@ -59,9 +59,14 @@ import {
       });
     }
 
+    ;
+    
+
     // PRESS NEXT SKIP
     async pressNextSkipSeat() {
-      const bodySeatBus = {seat:10, bus: this.state.idbus, order_id: this.state.idorder}
+      const chsSeat = this.state.selectedItems[0]+1
+      
+      const bodySeatBus = {seat:chsSeat, bus: this.state.idbus, order_id: this.state.idorder}
       const resSeatBus = await axiosPost('seat',bodySeatBus,this.props.getToken)
       if(resSeatBus.data.status === 200) {
         this.props.navigation.navigate('CustomerInfo', {idorder:this.state.idorder, idbus: this.state.idbus})
@@ -149,7 +154,7 @@ import {
             <Animated.View
               style={[
                 {
-                  backgroundColor: '#bbb',
+                  backgroundColor: '#e1e5e4',
                 },
                 styles.item,
                 {
@@ -173,15 +178,15 @@ import {
     render() {
       return (
         <View style={styles.container}>
-          <View
+          {/* <View
             style={{
               height: height * 0.1,
               width: width,
               alignItems: 'center',
-              justifyContent: 'space-between',
+              // justifyContent: 'space-between',
               flexDirection: 'row',
-              margin : 5,
-              backgroundColor : 'red'
+              // margin : 5,
+              backgroundColor : '#ef4339'
             }}>
         
             <Icon
@@ -193,13 +198,13 @@ import {
             />
 
             <FontAwesome5 name="chevron-right" size={22} onPress={()=>this.pressNextSkipSeat()} />
-          </View>
+          </View> */}
           <FlatList
           
             numColumns={COLS}
             extraData={this.state.selectedItems}
             data={seats}
-            style={{ flex: 0.6 }}
+            style={{ flex: 0.6, marginTop:50 }}
             renderItem={this.renderItem}
           />
           <View
@@ -216,7 +221,7 @@ import {
                 backgroundColor: 'red',
                 borderBottomColor : 'red'
               }}>
-              <Animated.View
+              {/* <Animated.View
                 style={{
                   flexDirection: 'column',
                   alignItems: 'center',
@@ -246,11 +251,16 @@ import {
                     </View>
                   );
                 })}
-              </Animated.View>
+              </Animated.View> */}
             </View>
-            <Text style={styles.text}>
-              locations Selected
+            <TouchableOpacity style={{margin:10}} onPress={() => this.pressNextSkipSeat()}>
+            <Content />
+          <Footer style={{backgroundColor : '#ef4339', width : 300}}>
+            <Text style={{marginTop : 15, fontWeight:'bold', color : 'white', fontSize : 15}}>
+            CHOOSE SEAT
             </Text>
+          </Footer>
+        </TouchableOpacity>
           </View>
         </View>
       );
@@ -272,9 +282,8 @@ import {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-      paddingTop: 10,
-      backgroundColor: '#ccc',
-      borderColor : 'red'
+      backgroundColor: '#e1e5e4',
+      borderColor : '#ef4339',
       
     },
     item: {

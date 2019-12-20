@@ -288,7 +288,7 @@ class Home extends Component {
 
           <Text
             style={{marginLeft: 10, marginTop: 20, color: 'red', fontSize: 16}}>
-            PENAWARAN
+            OFFERS
           </Text>
           <View style={{height: 130, marginTop: 10, marginBottom:20,}}>
             <ScrollView
