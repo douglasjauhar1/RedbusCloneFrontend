@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Image } from 'react-native'
+import { View, Image, TouchableOpacity } from 'react-native'
 import {Col, Grid} from 'react-native-easy-grid'
 import { Container, Header, Content, Card, CardItem, Text, Body, Right , Left} from "native-base";
 
@@ -8,6 +8,7 @@ export default class Cancel extends Component {
         return (
             <Container>
             <Content padder>
+            <TouchableOpacity onPress={()=>{this.props.navigation.navigate('Ticket')}} >
               <Card>
                 <CardItem>
                 <Grid>
@@ -35,6 +36,7 @@ export default class Cancel extends Component {
                 </Right>
                 </CardItem>
               </Card>
+              </TouchableOpacity>
             </Content>
           </Container>
         )

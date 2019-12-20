@@ -177,6 +177,8 @@ import {
               backgroundColor="transparent"
               onPress={this.animate}
             />
+
+            <Icon name="user" size={22} onPress={()=>{this.props.navigation.navigate('CustomerInfo')}} />
           </View>
           <FlatList
           

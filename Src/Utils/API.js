@@ -33,8 +33,9 @@ module.exports = {
     })
   },
 
-  axiosPut: (url, body) => {
+  axiosPut: (url, body, token= null) => {
     instance.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded'
+    instance.defaults.headers.put['Authorization'] = token
     return new Promise((resolve, reject) => {
       instance.put(url, body)
         .then(result => {

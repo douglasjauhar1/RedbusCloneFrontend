@@ -8,6 +8,8 @@ import SeatBus from '../Screens/SeatBus/SeatBus';
 import Calendar from '../Screens/Calendar/Calendar';
 import Origin from '../Screens/Origin/Origin';
 import Destination from '../Screens/Destination/Destination';
+import CustomerInfo from '../Screens/CustomerInfo/CustomerInfo';
+import Ticket from '../Screens/Ticket/Ticket';
 
 
 const HomeNavigation = createStackNavigator({
@@ -50,10 +52,40 @@ const HomeNavigation = createStackNavigator({
       },
     }, 
   },
+  CustomerInfo: { 
+    screen: CustomerInfo,
+    navigationOptions: {
+      title:'Customer Info',
+      headerTintColor: '#ffffff',
+      headerStyle: {
+        backgroundColor: '#ef4339',
+      },
+    }, 
+  },
+  PaymentOption: { 
+    screen: PaymentOptions,
+    navigationOptions: {
+      title:'Payment',
+      headerTintColor: '#ffffff',
+      headerStyle: {
+        backgroundColor: '#ef4339',
+      },
+    }, 
+  },
   Calendar: { 
     screen: Calendar,
     navigationOptions: {
       title:'Journey Date',
+      headerTintColor: '#ffffff',
+      headerStyle: {
+        backgroundColor: '#ef4339',
+      },
+    }, 
+  },
+  Ticket: { 
+    screen: Ticket,
+    navigationOptions: {
+      title:'My Ticket',
       headerTintColor: '#ffffff',
       headerStyle: {
         backgroundColor: '#ef4339',

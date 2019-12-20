@@ -51,9 +51,8 @@ export const loginUser = (payload) => {
             type: "LOGIN_USER_LOADING"
           });
           const response = await axiosPost('signin', payload, null)
-        //   const resGetUser = await axios.get('http://3.82.228.249:4000/company/user/' + payload.username)
-            // console.log("level:"+response.responseBody.result.level);
-            // console.log(response);
+          const resGetUser = await axiosGet('profile', response.data.result.token)
+        
             
           if(response.data.status === 200) {
             dispatch({
@@ -65,7 +64,7 @@ export const loginUser = (payload) => {
             });
             dispatch({
                 type: "GET_USER_SUCCESS",
-                payload: "Hello"
+                payload: resGetUser.data.result[0]
             });
             return response;
           } else {

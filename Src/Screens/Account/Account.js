@@ -15,6 +15,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import {connect} from "react-redux";
+import moment from 'moment'
 import { List, ListItem } from 'react-native-elements'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -93,6 +94,8 @@ class Account extends Component {
 
   componentDidMount() {
     this.setState({isLoading: false});
+    console.warn(this.props.getUser);
+    
   }
 
   logout = () => {
@@ -126,6 +129,8 @@ class Account extends Component {
       return <Loader />;
     }
 
+    const { userDetails } = this.props.getUser
+
     return (
       <View style={{flex:1, backgroundColor: '#e1e5e4'}}>
         <ScrollView>
@@ -137,10 +142,10 @@ class Account extends Component {
                     <EvilIcons name='user' size={45} />
                   </View>
                   <View style={{flex:6, marginLeft:10}}>
-                    <Text style={{fontSize:16}}>Nama User</Text>
-                    <Text style={{fontSize:16}}>Male, 21 Years</Text>
-                    <Text style={{fontSize:16}}>08928272727</Text>
-                    <Text style={{fontSize:16}}>useremail@gmail.com</Text>
+                    <Text style={{fontSize:16}}>{userDetails.name || 'Null'}</Text>
+                    <Text style={{fontSize:16}}>{userDetails.gender || 'Null'}, {moment(userDetails.date_of_birth).format('DD-MM-YYYY') || 'Null'}</Text>
+                    <Text style={{fontSize:16}}>{userDetails.phone_number || 'Null'}</Text>
+                    <Text style={{fontSize:16}}>{userDetails.email || 'Null'}</Text>
                   </View>
                   <View style={{flex:1, alignItems:'flex-end', justifyContent:'center'}}>
                     <EvilIcons name='chevron-right' size={25} />

@@ -31,8 +31,8 @@ class Home extends Component {
       dataEng: [],
       search: '',
       isLoading: true,
-      cityNmFrom: 'Enter origin',
-      cityNmTo: 'Enter destination',
+      cityNmFrom: '',
+      cityNmTo: '',
       sDate: '',
       cityIdFrom: null,
       cityIdTo: null,
@@ -46,8 +46,8 @@ class Home extends Component {
       this.props.navigation.addListener('willFocus', () => {
         this.setState({
           isLoading: false,
-          cityNmFrom: this.props.slcCityOrigin.cityNm || 'Enter origin',
-          cityNmTo: this.props.slcCityDestination.destNm || 'Enter destination',
+          cityNmFrom: this.props.slcCityOrigin.cityNm || '',
+          cityNmTo: this.props.slcCityDestination.destNm || '',
           cityIdFrom: this.props.slcCityOrigin.cityId,
           cityIdTo: this.props.slcCityDestination.destId,
           sDate: moment(this.props.slcDate.journeyDate).format("YYYY-MM-DD")
@@ -78,11 +78,14 @@ class Home extends Component {
   pressNext() {
     const {cityIdFrom, cityNmFrom, cityIdTo, cityNmTo, sDate} = this.state
     const bodyParams = {origin: cityIdFrom, destination: cityIdTo, date: sDate}
-    this.props.navigation.navigate('SelectBus', {origin: cityNmFrom, destination: cityNmTo, date: sDate})
 
-    axiosPost('dateorder/',bodyParams,this.props.getToken)
+    if (cityNmFrom != '' && cityNmTo != '') {
+      this.props.navigation.navigate('SelectBus', {origin: cityNmFrom, destination: cityNmTo, date: sDate})
+      axiosPost('dateorder/',bodyParams,this.props.getToken)
+    }
     
   }
+  
 
 
 
@@ -101,24 +104,24 @@ class Home extends Component {
               <Text style={{fontWeight:'bold'}}>From</Text>
               <View style={{flex:1, flexDirection:'row', marginTop:5}}>
                 <MaterialIcons name="location-city" size={35} />
-                <Text style={{fontSize:25, marginLeft:10,}}>{this.state.cityNmFrom}</Text>
+                <Text style={{fontSize:25, marginLeft:10,}}>{this.state.cityNmFrom === '' ? 'Enter origin' : this.state.cityNmFrom}</Text>
               </View>
             </View>
           </TouchableHighlight>
 
           <View style={{flexDirection:'row', alignSelf:'center'}}>
-            <Text>──────────────────────────────   </Text>
-              <TouchableOpacity onPress={() => this.pressSwitch}>
+            <Text>───────────────────────────────────</Text>
+              {/* <TouchableOpacity onPress={() => this.pressSwitch}>
                 <FontAwesome5 name="exchange-alt" size={20} />
-              </TouchableOpacity>    
-            <Text>   ───</Text>
+              </TouchableOpacity>     */}
+            {/* <Text>   ───</Text> */}
           </View>
           <TouchableHighlight style={{flex:1, padding:10}} underlayColor={'#ff828a'} activeOpacity={1} onPress={() => this.pressTo()} >
             <View style={{flex:1,}}>
               <Text style={{fontWeight:'bold'}}>To</Text>
               <View style={{flex:1, flexDirection:'row', marginTop:5}}>
                 <MaterialIcons name="location-city" size={35} />
-                <Text style={{fontSize:25, marginLeft:10,}}>{this.state.cityNmTo}</Text>
+                <Text style={{fontSize:25, marginLeft:10,}}>{this.state.cityNmTo === '' ? 'Enter destination' : this.state.cityNmTo}</Text>
               </View>
             </View>
           </TouchableHighlight>
