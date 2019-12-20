@@ -18,8 +18,11 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Loader from '../../Components/Loader';
 import moment from "moment";
-import {connect} from "react-redux";
+
 import {axiosPost, axiosGet} from '../../Utils/API';
+import {connect} from "react-redux";
+import { selectOrder } from '../../Redux/Actions/select.actions';
+import { getOrder } from '../../Redux/Actions/order.action';
 
 const { width } = Dimensions.get('window')
 
@@ -37,6 +40,7 @@ class Home extends Component {
       cityIdFrom: null,
       cityIdTo: null,
     };
+    // this.pressNext = this.pressNext.bind(this)
   }
 
    async componentDidMount() {
@@ -75,13 +79,27 @@ class Home extends Component {
     this.props.navigation.navigate('Calendar')
   }
 
-  pressNext() {
+  pressNext = async () => {
     const {cityIdFrom, cityNmFrom, cityIdTo, cityNmTo, sDate} = this.state
-    const bodyParams = {origin: cityIdFrom, destination: cityIdTo, date: sDate}
-
+    
     if (cityNmFrom != '' && cityNmTo != '') {
-      this.props.navigation.navigate('SelectBus', {origin: cityNmFrom, destination: cityNmTo, date: sDate})
-      axiosPost('dateorder/',bodyParams,this.props.getToken)
+      const resOrder = await axiosPost('order',{status: 1},this.props.getToken)
+      console.warn('idorder',resOrder.data.result.order_id);
+      const getOrderId = resOrder.data.result.order_id
+      const bodyParams = {origin: cityIdFrom, destination: cityIdTo, date: sDate, order_id: getOrderId}
+      
+      const resDateOrder = await axiosPost('dateorder',bodyParams,this.props.getToken)
+      console.log('resDateOrder',resDateOrder);
+      
+      this.props.navigation.navigate('SelectBus', {origin: cityNmFrom, destination: cityNmTo, date: sDate, idorder: getOrderId})
+      // const response = this.props.dispatch(getOrder(resOrder.data.result.order_id));
+
+      if (!response) {
+        throw response;
+      }
+     
+      // axiosPost('dateorder/',bodyParams,this.props.getToken)
+
     }
     
   }
@@ -143,7 +161,7 @@ class Home extends Component {
           </TouchableHighlight>
         </View>
         <View style={{alignSelf: 'center', justifyContent:'center', marginTop:20}}>
-          <TouchableOpacity onPress={()=> this.pressNext()}>
+          <TouchableOpacity onPress={this.pressNext}>
             <View style={{height:70, width:70, backgroundColor: '#ef4339', borderRadius:50, justifyContent:'center', alignItems:'center' }}> 
               <FontAwesome5 name='chevron-right' size={30} style={{color:'white'}} />
             </View>

@@ -14,6 +14,8 @@ class CustomerInfo extends Component {
     this.state = {
       namepassanger: '',
       age: '',
+      idorder: this.props.navigation.state.params.idorder || null,
+      idbus: this.props.navigation.state.params.idbus || null,
     };
   
   }
@@ -23,6 +25,8 @@ class CustomerInfo extends Component {
       const response = await axiosPost("/customer/", {
         name: this.state.namepassanger,
         age: this.state.age,
+        order_id: this.state.idorder,
+        bus: this.state.idbus
       }, this.props.getToken);
       console.log("Returned data:", response);
       if (response) {
@@ -32,7 +36,7 @@ class CustomerInfo extends Component {
           [
             {
               text: 'Ok',
-              onPress: () => this.props.navigation.navigate('PaymentOption'),
+              onPress: () => this.props.navigation.navigate('PaymentOption',{idorder:this.state.idorder, idbus: this.state.idbus}),
               style: 'default',
             },
           ]
@@ -122,6 +126,7 @@ class CustomerInfo extends Component {
               <Input 
                 style={styles.input}
                 placeholder="Age"
+                keyboardType="numeric"
                 onChangeText={value => this.setState({age: value})}
               />
             </Item>

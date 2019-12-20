@@ -81,8 +81,37 @@ const selectDest = (state = {}, action) => {
 }
 
 
+const selectOrder = (state = {}, action) => {
+console.log('reducer',action);
+
+  switch (action.type) {    
+    case "SELECT_ORDER_SUCCESS":
+        return {
+          isLoading: false,
+          isError: false,
+          isSuccess: true,
+          orderNm: action.payload.id,
+          errors: null
+        }
+
+    case "SELECT_ORDER_FAIL":
+        return {
+          isLoading: false,
+          isError: true,
+          isSuccess: false,
+          orderNm: null,
+          errors: action.payload
+        }
+
+    default:
+      return state;
+  }
+}
+
+
 export default combineReducers({
     selectDate,
     selectCity,
-    selectDest
+    selectDest,
+    selectOrder,
 });

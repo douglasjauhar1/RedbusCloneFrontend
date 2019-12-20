@@ -4,12 +4,14 @@ import { reducer as formReducer } from 'redux-form'
 import authReducer from "./auth.reducer";
 import userReducer from "./user.reducer";
 import selectReducer from "./select.reducer"
+import orderReducer from "./order.reducer"
 
 
 const reducers = {
     authReducer,
     userReducer,
     selectReducer,
+    orderReducer,
     form: formReducer
 };
 

@@ -1,9 +1,51 @@
 import React, { Component } from 'react'
-import { View, Image, Text } from 'react-native'
+import { View, Image, Text, Alert } from 'react-native'
 import {Col, Grid} from 'react-native-easy-grid'
 import { Container, Header, Content, Card, CardItem, Icon, Button} from "native-base";
+import { axiosPut } from '../../Utils/API'
+import { connect } from "react-redux";
 
-export default class PaymentDetail extends Component {
+class PaymentDetail extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      idorder: this.props.navigation.state.params.idorder || null,
+      idbus: this.props.navigation.state.params.idbus || null,
+    };
+  }
+
+  async pressConfirm() {
+    const bodyPayConfirm = {paid: 1, order_id: this.state.idorder}
+    const resPayConfirm = await axiosPut('pay',bodyPayConfirm,this.props.getToken)
+    if(resPayConfirm.data.status === 200) {
+      Alert.alert(
+          'Payment Confirm!',
+          "Payment confirmed please check 'My Booking' menu",
+          [
+            {
+              text: 'Ok',
+              onPress: () => this.props.navigation.navigate('My Bookings'),
+              style: 'default',
+            },
+          ]
+        );
+        
+    } else {
+      Alert.alert(
+        'Submit Failed!',
+        "Submit customer info failed",
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+        ]
+      );
+    }
+  }
+
     render() {
         return (
             <Container>
@@ -64,7 +106,7 @@ export default class PaymentDetail extends Component {
                     </Grid>
               </CardItem>
               <CardItem style={{backgroundColor : '#E5EBF9', justifyContent : 'center'}}>
-                <Button style={{backgroundColor : '#465886', width : 300, justifyContent :'center'}}>
+                <Button style={{backgroundColor : '#465886', width : 300, justifyContent :'center'}} onPress={()=> this.pressConfirm()}>
                 <Text style={{color : 'white'}}>I HAVE BEEN PAID</Text>
                 </Button>
                
@@ -96,3 +138,13 @@ export default class PaymentDetail extends Component {
         )
     }
 }
+
+mapStateToProps = (state) => ({
+  getToken: state.authReducer.authData.token,
+})
+
+mapDispatchToProps = (dispatch) => ({
+  dispatch
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PaymentDetail);

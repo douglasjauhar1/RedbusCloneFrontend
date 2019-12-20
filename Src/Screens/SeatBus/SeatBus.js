@@ -11,6 +11,9 @@ import {
     Alert
   } from 'react-native';
   import {Icon} from 'native-base'
+  import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+  import {axiosPost, axiosGet} from '../../Utils/API';
+  import {connect} from "react-redux";
 
   const { width, height } = Dimensions.get('window');
 
@@ -37,13 +40,15 @@ import {
     seats.push(currentItem);
   });
   
-  export default class SeatBus extends Component {
+  class SeatBus extends Component {
     constructor(props) {
       super(props);
   
       this.state = {
         finished: false,
-        selectedItems: []
+        selectedItems: [],
+        idorder: this.props.navigation.state.params.idorder || null,
+        idbus: this.props.navigation.state.params.idbus || null,
       };
   
       this.selectionAnimation = new Animated.Value(0);
@@ -52,6 +57,15 @@ import {
       seatsAnimation.forEach(value => {
         this.animatedValue[value] = new Animated.Value(0);
       });
+    }
+
+    // PRESS NEXT SKIP
+    async pressNextSkipSeat() {
+      const bodySeatBus = {seat:10, bus: this.state.idbus, order_id: this.state.idorder}
+      const resSeatBus = await axiosPost('seat',bodySeatBus,this.props.getToken)
+      if(resSeatBus.data.status === 200) {
+        this.props.navigation.navigate('CustomerInfo', {idorder:this.state.idorder, idbus: this.state.idbus})
+      }
     }
   
     animate = () => {
@@ -178,7 +192,7 @@ import {
               onPress={this.animate}
             />
 
-            <Icon name="user" size={22} onPress={()=>{this.props.navigation.navigate('CustomerInfo')}} />
+            <FontAwesome5 name="chevron-right" size={22} onPress={()=>this.pressNextSkipSeat()} />
           </View>
           <FlatList
           
@@ -243,6 +257,16 @@ import {
     }
   }
   
+  mapStateToProps = (state) => ({
+    getToken: state.authReducer.authData.token,
+  })
+  
+  mapDispatchToProps = (dispatch) => ({
+    dispatch
+  });
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(SeatBus);
+
   const styles = StyleSheet.create({
     container: {
       flex: 1,

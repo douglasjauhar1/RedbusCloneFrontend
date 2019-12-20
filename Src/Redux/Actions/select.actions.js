@@ -54,3 +54,23 @@ export const selectDest = (payload) => {
       }
   }
 }
+
+
+export const selectOrder = (payload) => {
+  return async (dispatch) => {
+
+      try {
+        dispatch({
+          type: "SELECT_ORDER_SUCCESS",
+          payload: payload
+        });
+
+      } catch (error) {
+          dispatch({
+              type: "SELECT_ORDER_FAIL",
+              payload: error
+          });
+          return error;
+      }
+  }
+}

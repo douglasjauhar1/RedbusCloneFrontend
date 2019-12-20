@@ -12,6 +12,7 @@ import {
   Thumbnail,
   Button,
 } from 'native-base';
+import {connect} from "react-redux";
 import {Grid, Col} from 'react-native-easy-grid'
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -19,17 +20,18 @@ import Data from './Data';
 import Loader from '../../Components/Loader';
 import {axiosPost, axiosGet} from '../../Utils/API';
 
-export default class SelectBus extends Component {
+class SelectBus extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       listBus: [],
+      idorder: this.props.navigation.state.params.idorder || null,
     };
   }
 
   componentDidMount() {
-    console.warn(this.props.navigation.state.params.origin);
+    console.warn('sts_order',this.props.slcCityOrigin);
     this.getDataBus();
   }
 
@@ -48,11 +50,19 @@ export default class SelectBus extends Component {
     }
   }
 
+  async pressListBus(valIdBus) {
+    const bodyDateOrder = {bus: valIdBus, order_id: this.state.idorder}
+    const resDateOrder = await axiosPost('bus',bodyDateOrder,this.props.getToken)
+    if(resDateOrder.data.status === 200) {
+      this.props.navigation.navigate('SeatBus', {idorder:this.state.idorder, idbus: valIdBus})
+    }
+  }
+
   render() {
     // const lsBus = this.setState.listBus
     const item = this.state.listBus.map((item, index) => {
       return (
-      <TouchableOpacity onPress={() => {this.props.navigation.navigate('SeatBus')}}>
+      <TouchableOpacity onPress={() => this.pressListBus(item.id)}>
         <View key={item.id} style={styles.item}>
           <Content>
             <Card>
@@ -98,6 +108,16 @@ export default class SelectBus extends Component {
     );
   }
 }
+
+mapStateToProps = (state) => ({
+  getToken: state.authReducer.authData.token,
+})
+
+mapDispatchToProps = (dispatch) => ({
+  dispatch
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SelectBus);
 
 const styles = StyleSheet.create({
   headerText: {

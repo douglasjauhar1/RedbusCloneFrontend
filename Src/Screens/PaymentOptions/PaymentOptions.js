@@ -4,12 +4,29 @@ import {Col, Grid} from 'react-native-easy-grid';
 import { Card, CardItem, Thumbnail, List, ListItem, Separator, Footer } from 'native-base';
 import ShowMore from 'react-native-show-more-button';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {connect} from "react-redux";
+import { axiosPost } from '../../Utils/API'
 import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
 
-export default class PaymentOptions extends Component {
+class PaymentOptions extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      idorder: this.props.navigation.state.params.idorder || null,
+      idbus: this.props.navigation.state.params.idbus || null,
+    };
   }
+
+  async pressPayNow() {
+    const bodyPayNow = {paid: 0, order_id: this.state.idorder}
+    const resPayNow = await axiosPost('pay',bodyPayNow,this.props.getToken)
+    if(resPayNow.data.status === 200) {
+      this.props.navigation.navigate('PaymentDetail', {idorder:this.state.idorder, idbus: this.state.idbus})
+    }
+  }
+
+
   render() {
     return (
       <View style={{flex:1, backgroundColor:'#e1e5e4'}}>
@@ -208,7 +225,7 @@ export default class PaymentOptions extends Component {
             </Collapse>
           </View>
 
-        <TouchableOpacity style={{margin:10}} onPress={() => {this.props.navigation.navigate('PaymentDetail')}}>
+        <TouchableOpacity style={{margin:10}} onPress={() => this.pressPayNow()}>
           <Footer style={{backgroundColor : '#ef4339'}}>
             <Text style={{marginTop : 15, fontWeight:'bold', color : 'white', fontSize : 15}}>
             PAY NOW
@@ -220,3 +237,13 @@ export default class PaymentOptions extends Component {
     );
   }
 }
+
+mapStateToProps = (state) => ({
+  getToken: state.authReducer.authData.token,
+})
+
+mapDispatchToProps = (dispatch) => ({
+  dispatch
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PaymentOptions);
